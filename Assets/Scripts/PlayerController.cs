@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private InputAction moveAction;
     private InputAction jumpAction;
+    private InputAction attackAction;
 
     private Vector2 moveVector;
     private bool isGrounded;
@@ -34,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
         {
             moveAction = InputSystem.actions.FindAction("Move");
             jumpAction = InputSystem.actions.FindAction("Jump");
+            attackAction = InputSystem.actions.FindAction("Attack");
         }
     }
 
@@ -90,4 +92,5 @@ public class PlayerMovement : MonoBehaviour
             Gizmos.DrawWireSphere(groundCheck.position, checkRadius);
         }
     }
+
 }
