@@ -602,14 +602,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 6696243139702364191, guid: 571e532e5360ff746a3e8ba65fd1a681, type: 3}
-      propertyPath: jumpForce
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 6696243139702364191, guid: 571e532e5360ff746a3e8ba65fd1a681, type: 3}
-      propertyPath: projectilePrefab
-      value: 
-      objectReference: {fileID: 2624236343845940204, guid: 6197313f70002dc47ab68f8732ca9357, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

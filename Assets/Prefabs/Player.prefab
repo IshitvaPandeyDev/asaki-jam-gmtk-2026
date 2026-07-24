@@ -140,7 +140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimpleVectorMovement
   moveSpeed: 8
-  jumpForce: 12
+  jumpForce: 20
   fallGravityMultiplier: 2.5
   lowJumpGravityMultiplier: 2
   groundCheck: {fileID: 6867498641745253686}
@@ -148,7 +148,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   checkRadius: 0.2
-  projectilePrefab: {fileID: 0}
+  projectilePrefab: {fileID: 2624236343845940204, guid: 6197313f70002dc47ab68f8732ca9357, type: 3}
   firePoint: {fileID: 5144568205272655238}
 --- !u!70 &3204646396585041540
 CapsuleCollider2D:
@@ -239,7 +239,7 @@ Transform:
   m_GameObject: {fileID: 8863703472731851074}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.39999962, y: -0.97, z: 0}
+  m_LocalPosition: {x: -0.11, y: -0.87, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
