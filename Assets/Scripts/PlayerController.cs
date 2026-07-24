@@ -6,7 +6,13 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 8f;
+    [SerializeField] private float acceleration = 50f;
+    [SerializeField] private float deceleration = 50f;
+
+    [Header("Jump Settings")]
     [SerializeField] private float jumpForce = 12f;
+    [SerializeField] private float coyoteTime = 0.15f;
+    [SerializeField] private float jumpBufferTime = 0.15f;
 
     [Header("Variable Jump Feel")]
     [SerializeField] private float fallGravityMultiplier = 2.5f; 
@@ -32,6 +38,9 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded;
     private float defaultGravityScale;
 
+    private float coyoteCounter;
+    private float jumpBufferCounter;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -47,46 +56,69 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        // Shoot check
-        if (attackAction != null && attackAction.WasPressedThisFrame())
-        {
-            Shoot();
-        }
-        // 1. Ground check
+        // Ground Check
         if (groundCheck != null)
         {
             isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundLayer);
         }
 
-        // 2. Read horizontal input
+        // Coyote Time Logic
+        if (isGrounded)
+        {
+            coyoteCounter = coyoteTime;
+        }
+        else
+        {
+            coyoteCounter -= Time.deltaTime;
+        }
+
+        // Jump Buffer Logic
+        if (jumpAction != null && jumpAction.WasPressedThisFrame())
+        {
+            jumpBufferCounter = jumpBufferTime;
+        }
+        else
+        {
+            jumpBufferCounter -= Time.deltaTime;
+        }
+
+        // Execute Jump if both conditions are met
+        if (jumpBufferCounter > 0f && coyoteCounter > 0f)
+        {
+            ExecuteJump();
+        }
+
+        // Input Reading & Facing Direction
         if (moveAction != null)
         {
             moveVector = moveAction.ReadValue<Vector2>();
         }
 
-        // 3. Jump initiation
-        if (jumpAction != null && jumpAction.WasPressedThisFrame() && isGrounded)
+        if (moveVector.x > 0) facingDirection = 1f;
+        else if (moveVector.x < 0) facingDirection = -1f;
+
+        // Shooting
+        if (attackAction != null && attackAction.WasPressedThisFrame())
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            Shoot();
         }
 
-        // 4. Variable Jump Height Logic
         ApplyVariableGravity();
-        if (moveVector.x > 0)
-        {
-            facingDirection = 1f;
-            // spriteRenderer.flipX = false; // If using SpriteRenderer flip
-        }
-        else if (moveVector.x < 0)
-        {
-            facingDirection = -1f;
-            // spriteRenderer.flipX = true; // If using SpriteRenderer flip
-        }
     }
 
+    private void ExecuteJump()
+    {
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+        jumpBufferCounter = 0f;
+    }
     private void FixedUpdate()
     {
-        rb.linearVelocity = new Vector2(moveVector.x * moveSpeed, rb.linearVelocity.y);
+        float targetSpeed = moveVector.x * moveSpeed;
+        float speedDiff = targetSpeed - rb.linearVelocity.x;
+        float accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? acceleration : deceleration;
+        float movement = speedDiff * accelRate;
+
+        rb.AddForce(movement * Vector2.right, ForceMode2D.Force);
     }
 
     private void ApplyVariableGravity()
@@ -117,14 +149,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (projectilePrefab == null || firePoint == null) return;
 
-        // Determine facing direction based on localScale.x (+1 for Right, -1 for Left)
         
         Vector2 shootDirection = new Vector2(facingDirection, 0f);
 
-        // Spawn bullet at FirePoint position
         GameObject bulletObj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
 
-        // Launch it
         Projectile projectile = bulletObj.GetComponent<Projectile>();
         if (projectile != null)
         { 

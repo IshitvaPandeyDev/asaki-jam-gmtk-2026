@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 6696243139702364191}
   - component: {fileID: 3204646396585041540}
   - component: {fileID: 134278802939946520}
+  - component: {fileID: 2328073549998622461}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -214,6 +215,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &2328073549998622461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4591593918767940150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec7a4b79f223f92439fb6dca1fdfc101, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  MaxHearts: 5
+  Damage: 1
+  InvincDuration: 1
 --- !u!1 &8863703472731851074
 GameObject:
   m_ObjectHideFlags: 0
