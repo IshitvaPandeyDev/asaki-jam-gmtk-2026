@@ -127,7 +127,7 @@ public class PlayerMovement : MonoBehaviour
         // Launch it
         Projectile projectile = bulletObj.GetComponent<Projectile>();
         if (projectile != null)
-        {
+        { 
             projectile.Launch(shootDirection);
         }
     }
