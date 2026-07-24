@@ -131,7 +131,7 @@ MonoBehaviour:
     - {x: 1, y: 0, z: 0}
     - {x: 0, y: -1, z: 0}
     - {x: -1, y: 0, z: 0}
-    m_RuleTransform: 0
+    m_RuleTransform: 2
   - m_Id: 6
     m_Sprites:
     - {fileID: 2951995805347252362, guid: 544af3f68c6061249a563a6de1915ca1, type: 3}
@@ -170,7 +170,7 @@ MonoBehaviour:
     - {x: 1, y: 0, z: 0}
     - {x: -1, y: 0, z: 0}
     - {x: 0, y: -1, z: 0}
-    m_RuleTransform: 2
+    m_RuleTransform: 0
   - m_Id: 8
     m_Sprites:
     - {fileID: -4379440562297699940, guid: 544af3f68c6061249a563a6de1915ca1, type: 3}
@@ -188,7 +188,7 @@ MonoBehaviour:
     - {x: 1, y: 0, z: 0}
     - {x: 0, y: -1, z: 0}
     - {x: -1, y: 0, z: 0}
-    m_RuleTransform: 0
+    m_RuleTransform: 2
   - m_Id: 9
     m_Sprites:
     - {fileID: 4956494978326380367, guid: 544af3f68c6061249a563a6de1915ca1, type: 3}
