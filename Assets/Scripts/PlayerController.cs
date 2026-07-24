@@ -17,6 +17,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float checkRadius = 0.2f;
 
+    [Header("Shooting Settings")]
+    [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private Transform firePoint;
+
+    Projectile Proj;
+
     private Rigidbody2D rb;
     private InputAction moveAction;
     private InputAction jumpAction;
@@ -41,6 +47,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        // Shoot check
+        if (attackAction != null && attackAction.WasPressedThisFrame())
+        {
+            Shoot();
+        }
         // 1. Ground check
         if (groundCheck != null)
         {
@@ -90,6 +101,24 @@ public class PlayerMovement : MonoBehaviour
         {
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(groundCheck.position, checkRadius);
+        }
+    }
+    private void Shoot()
+    {
+        if (projectilePrefab == null || firePoint == null) return;
+
+        // Determine facing direction based on localScale.x (+1 for Right, -1 for Left)
+        float facingDirection = Mathf.Sign(transform.localScale.x);
+        Vector2 shootDirection = new Vector2(facingDirection, 0f);
+
+        // Spawn bullet at FirePoint position
+        GameObject bulletObj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+
+        // Launch it
+        Projectile projectile = bulletObj.GetComponent<Projectile>();
+        if (projectile != null)
+        {
+            projectile.Launch(shootDirection);
         }
     }
 

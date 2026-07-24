@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.WSA;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Projectile : MonoBehaviour
@@ -16,20 +15,28 @@ public class Projectile : MonoBehaviour
 
     private void Start()
     {
+        // Destroy the bullet after a few seconds so it doesn't clutter memory
         Destroy(gameObject, lifetime);
     }
-    public void Launcher(Vector2 Direction)
+
+    // We DELETED the Update() method so it doesn't fight the physics system!
+
+    public void Launch(Vector2 Direction)
     {
+        // 1. Give it physics velocity
         Rigid.linearVelocity = Direction.normalized * speed;
-        float angle =  Mathf.Atan2(Direction.x, Direction.y) * Mathf.Rad2Deg;
-        transform. rotation = Quaternion.Euler(0,0,angle);
+
+        // 2. Rotate it correctly (Notice it is Y first, then X!)
+        float angle = Mathf.Atan2(Direction.y, Direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        int LayerIndex = LayerMask.NameToLayer("Enemy");
-        if (collision.gameObject.layer == LayerIndex)
-        {
-           
-        }
+        // Remember to ignore the player so they don't shoot themselves!
+        if (collision.CompareTag("Player")) return;
+
+        // Destroy projectile when it hits a wall/enemy
+        Destroy(gameObject);
     }
 }
