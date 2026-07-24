@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Shooting Settings")]
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform firePoint;
-
+    private float facingDirection = 1f; 
     Projectile Proj;
 
     private Rigidbody2D rb;
@@ -72,6 +72,16 @@ public class PlayerMovement : MonoBehaviour
 
         // 4. Variable Jump Height Logic
         ApplyVariableGravity();
+        if (moveVector.x > 0)
+        {
+            facingDirection = 1f;
+            // spriteRenderer.flipX = false; // If using SpriteRenderer flip
+        }
+        else if (moveVector.x < 0)
+        {
+            facingDirection = -1f;
+            // spriteRenderer.flipX = true; // If using SpriteRenderer flip
+        }
     }
 
     private void FixedUpdate()
@@ -108,7 +118,7 @@ public class PlayerMovement : MonoBehaviour
         if (projectilePrefab == null || firePoint == null) return;
 
         // Determine facing direction based on localScale.x (+1 for Right, -1 for Left)
-        float facingDirection = Mathf.Sign(transform.localScale.x);
+        
         Vector2 shootDirection = new Vector2(facingDirection, 0f);
 
         // Spawn bullet at FirePoint position
