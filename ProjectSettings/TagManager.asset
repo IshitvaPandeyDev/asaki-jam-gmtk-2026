@@ -39,8 +39,17 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Background
+  - name: 1 - Background Sky
     uniqueID: 179556931
+    locked: 0
+  - name: 2 - Clouds
+    uniqueID: 3377870039
+    locked: 0
+  - name: 3 - Building
+    uniqueID: 839971607
+    locked: 0
+  - name: 4 - Buildings 2
+    uniqueID: 44497975
     locked: 0
   - name: Hazards
     uniqueID: 311760725
