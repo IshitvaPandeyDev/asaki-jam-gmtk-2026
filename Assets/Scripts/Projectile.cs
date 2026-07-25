@@ -29,15 +29,20 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")) return;
+        if (collision.isTrigger) return;
 
+        int layerindex1 = LayerMask.NameToLayer("Player");
+        if (collision.gameObject.layer == layerindex1)
+        {
+            Debug.Log("Still player m dikkat h");
+            return;
+        }
         EnemyHealth enemyH = collision.GetComponent<EnemyHealth>();
         int layerindex = LayerMask.NameToLayer("Enemy");
         if (collision.gameObject.layer == layerindex)
         {
             enemyH.TakeDamage();
         }
-
         Destroy(gameObject);
     }
 }
