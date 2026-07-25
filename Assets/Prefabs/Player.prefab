@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5144568205272655238}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: GunPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 3204646396585041540}
   - component: {fileID: 134278802939946520}
   - component: {fileID: 2328073549998622461}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -62,7 +62,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -9.18, y: 3.23, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6867498641745253686}
@@ -141,7 +141,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimpleVectorMovement
   moveSpeed: 8
+  acceleration: 50
+  deceleration: 50
   jumpForce: 20
+  coyoteTime: 0.15
+  jumpBufferTime: 0.15
   fallGravityMultiplier: 2.5
   lowJumpGravityMultiplier: 2
   groundCheck: {fileID: 6867498641745253686}
@@ -228,7 +232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   MaxHearts: 5
-  Damage: 1
+  OppDamage: 1
   InvincDuration: 1
 --- !u!1 &8863703472731851074
 GameObject:
@@ -239,7 +243,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6867498641745253686}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
