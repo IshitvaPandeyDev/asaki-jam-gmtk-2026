@@ -39,14 +39,14 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Default
-    uniqueID: 0
-    locked: 0
   - name: Background
     uniqueID: 179556931
     locked: 0
   - name: Hazards
     uniqueID: 311760725
+    locked: 0
+  - name: Default
+    uniqueID: 0
     locked: 0
   - name: Platforms
     uniqueID: 182146479
