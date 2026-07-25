@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
@@ -41,6 +42,8 @@ public class PlayerMovement : MonoBehaviour
     private float coyoteCounter;
     private float jumpBufferCounter;
 
+    PlayerHealth playerhealth;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -52,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
             jumpAction = InputSystem.actions.FindAction("Jump");
             attackAction = InputSystem.actions.FindAction("Attack");
         }
+        playerhealth = GetComponent<PlayerHealth>();
     }
 
     private void Update()
@@ -160,5 +164,39 @@ public class PlayerMovement : MonoBehaviour
             projectile.Launch(shootDirection);
         }
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        CheckForBlackTile(collision);
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        CheckForBlackTile(collision);
+    }
+
+    private void CheckForBlackTile(Collision2D collision)
+    {
+        Tilemap tilemap = collision.gameObject.GetComponent<Tilemap>();
+        if (tilemap == null) return;
+
+        foreach (ContactPoint2D contact in collision.contacts)
+        {
+            // Push the contact point slightly into the tile collider
+            Vector3 hitPoint = contact.point - (contact.normal * 0.05f);
+            Vector3Int cellPosition = tilemap.WorldToCell(hitPoint);
+
+            Color tileColor = tilemap.GetColor(cellPosition);
+
+            // Check RGB values directly instead of strict equality to prevent shader alpha issues
+            if (tileColor.r <= 0.05f && tileColor.g <= 0.05f && tileColor.b <= 0.05f)
+            {
+                Debug.Log($"Stepped on black tile at position: {cellPosition}");
+                playerhealth.Die();
+                break;
+            }
+        }
+    }
+
+
 
 }

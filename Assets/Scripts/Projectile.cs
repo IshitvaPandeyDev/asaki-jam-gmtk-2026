@@ -34,7 +34,6 @@ public class Projectile : MonoBehaviour
         int layerindex1 = LayerMask.NameToLayer("Player");
         if (collision.gameObject.layer == layerindex1)
         {
-            Debug.Log("Still player m dikkat h");
             return;
         }
         EnemyHealth enemyH = collision.GetComponent<EnemyHealth>();
