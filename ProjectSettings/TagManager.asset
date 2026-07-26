@@ -60,5 +60,8 @@ TagManager:
   - name: Platforms
     uniqueID: 182146479
     locked: 0
+  - name: Safety Tiles
+    uniqueID: 1473561707
+    locked: 0
   m_RenderingLayers:
   - Default
