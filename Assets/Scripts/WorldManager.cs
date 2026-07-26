@@ -56,6 +56,8 @@ public class WorldManager : MonoBehaviour
         normalWorld.SetActive(!isSpiritWorldActive);
         spiritWorld.SetActive(isSpiritWorldActive);
 
+        
+
         player.OnWorldChanged(isSpiritWorldActive);
 
         if (isSpiritWorldActive)

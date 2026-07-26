@@ -6,7 +6,7 @@ public class SafetyTileManager : MonoBehaviour
 {
     public static SafetyTileManager Instance { get; private set; }
 
-    [SerializeField] private Tilemap safetyTilemap;
+    [SerializeField] private Tilemap SpriteTile;
 
     // Cache list storing world positions of all safety tiles
     private List<Vector3> cachedSafetyPositions = new List<Vector3>();
@@ -24,21 +24,21 @@ public class SafetyTileManager : MonoBehaviour
 
     private void CacheSafetyTiles()
     {
-        if (safetyTilemap == null)
+        if (SpriteTile == null)
         {
             Debug.LogError("Safety Tilemap is not assigned in SafetyTileManager!");
             return;
         }
 
         cachedSafetyPositions.Clear();
-        BoundsInt bounds = safetyTilemap.cellBounds;
+        BoundsInt bounds = SpriteTile.cellBounds;
 
         foreach (Vector3Int pos in bounds.allPositionsWithin)
         {
-            if (safetyTilemap.HasTile(pos))
+            if (SpriteTile.HasTile(pos))
             {
                 // Convert tile grid coordinate to exact world position (center of the tile)
-                Vector3 worldPos = safetyTilemap.GetCellCenterWorld(pos);
+                Vector3 worldPos = SpriteTile.GetCellCenterWorld(pos);
                 cachedSafetyPositions.Add(worldPos);
             }
         }
