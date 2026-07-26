@@ -21899,7 +21899,7 @@ MonoBehaviour:
   normalWorld: {fileID: 1543751544}
   spiritWorld: {fileID: 1049515418}
   spiritTilemap: {fileID: 1887426624}
-  switchTime: 20
+  switchTime: 15
   DecayInterval: 0.5
   TilesPerDecay: 2
 --- !u!4 &1514365010

@@ -12,7 +12,7 @@ public class WorldManager : MonoBehaviour
     [SerializeField] private Tilemap spiritTilemap;
 
     [Header("Timing Settings")]
-    [SerializeField] private float switchTime = 20f;
+    [SerializeField] private float switchTime = 15f;
     [SerializeField] private float DecayInterval = 0.5f;
     [SerializeField] private int TilesPerDecay = 2; 
 
