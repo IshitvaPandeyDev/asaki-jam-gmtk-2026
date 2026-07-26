@@ -7,6 +7,10 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private float OppDamage = 1.0f;
     private float CurrentHearts;
 
+    [Header("Drain Health Settings")]
+    [SerializeField] private float DrainRatePerSecond = 0.05f;
+    [SerializeField] private float HealthGainedPerKill = 0.5f;
+
     [Header("Invincibility Cooldown")]
     [SerializeField] private float InvincDuration = 1.0f;
     private float InvincTimer = 0f;
@@ -18,10 +22,13 @@ public class PlayerHealth : MonoBehaviour
 
     private void Update()
     {
+        DrainHealth();
+
         if (InvincTimer > 0)
         {
             InvincTimer -= Time.deltaTime;
         }
+        Debug.Log(CurrentHearts);
     }
     public void TakeDamage()
     {
@@ -37,6 +44,21 @@ public class PlayerHealth : MonoBehaviour
         Debug.Log(CurrentHearts);
     }
 
+    private void DrainHealth()
+    {
+        CurrentHearts -= DrainRatePerSecond * Time.deltaTime;
+
+        if (CurrentHearts <= 0)
+        {
+            Die();
+        }
+    }
+
+    public void HealOnKill()
+    {
+        CurrentHearts = Mathf.Min(CurrentHearts + HealthGainedPerKill, MaxHearts);
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         int layerindex = LayerMask.NameToLayer("Enemy");
@@ -49,5 +71,6 @@ public class PlayerHealth : MonoBehaviour
     public void Die()
     {
         gameObject.SetActive(false);
+        GameOverManager.Instance.TriggerGameOver();
     }
 }

@@ -65,13 +65,11 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        // Ground Check
         if (groundCheck != null)
         {
             isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundLayer);
         }
 
-        // Coyote Time Logic
         if (isGrounded)
         {
             coyoteCounter = coyoteTime;
@@ -81,7 +79,6 @@ public class PlayerController : MonoBehaviour
             coyoteCounter -= Time.deltaTime;
         }
 
-        // Jump Buffer Logic
         if (jumpAction != null && jumpAction.WasPressedThisFrame())
         {
             jumpBufferCounter = jumpBufferTime;
@@ -91,13 +88,11 @@ public class PlayerController : MonoBehaviour
             jumpBufferCounter -= Time.deltaTime;
         }
 
-        // Execute Jump if both conditions are met
         if (jumpBufferCounter > 0f && coyoteCounter > 0f)
         {
             ExecuteJump();
         }
 
-        // Input Reading & Facing Direction
         if (moveAction != null)
         {
             moveVector = moveAction.ReadValue<Vector2>();
@@ -106,16 +101,13 @@ public class PlayerController : MonoBehaviour
         if (moveVector.x > 0) facingDirection = 1f;
         else if (moveVector.x < 0) facingDirection = -1f;
 
-          // Sprite flip
         transform.localScale = new Vector3(facingDirection * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
 
-        // Animator state
         if (animator != null)
         {
             animator.SetBool("isMoving", Mathf.Abs(moveVector.x) > 0.01f);
         }
 
-        // Shooting
         if (attackAction != null && attackAction.WasPressedThisFrame())
         {
             Shoot();
@@ -195,13 +187,11 @@ public class PlayerController : MonoBehaviour
 
         foreach (ContactPoint2D contact in collision.contacts)
         {
-            // Push the contact point slightly into the tile collider
             Vector3 hitPoint = contact.point - (contact.normal * 0.05f);
             Vector3Int cellPosition = tilemap.WorldToCell(hitPoint);
 
             Color tileColor = tilemap.GetColor(cellPosition);
 
-            // Check RGB values directly instead of strict equality to prevent shader alpha issues
             if (tileColor.r <= 0.05f && tileColor.g <= 0.05f && tileColor.b <= 0.05f)
             {
                 Debug.Log($"Stepped on black tile at position: {cellPosition}");
@@ -224,10 +214,8 @@ public class PlayerController : MonoBehaviour
         {
             Vector3 safePoint = SafetyTileManager.Instance.GetNearestSafetyTilePosition(transform.position);
 
-            // Instant teleport
             transform.position = safePoint + new Vector3(0f, 1.2f, 0f); ;
 
-            // Reset Rigidbody velocity so momentum doesn't launch player after teleporting
             Rigidbody2D rb = GetComponent<Rigidbody2D>();
             if (rb != null)
             {
@@ -235,7 +223,6 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // Apply damage once when teleporting
         if (playerhealth != null)
         {
             playerhealth.TakeDamage();
@@ -244,7 +231,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Check if the overlapping object is on the ground/tilemap layer
         if (((1 << collision.gameObject.layer) & groundLayer) != 0)
         {
             TeleportToSafety();
