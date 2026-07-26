@@ -30,6 +30,9 @@ public class PlayerMovement : MonoBehaviour
     private float facingDirection = 1f; 
     Projectile Proj;
 
+    [Header("Animation")]
+    [SerializeField] private Animator animator;
+
     private Rigidbody2D rb;
     private InputAction moveAction;
     private InputAction jumpAction;
@@ -100,6 +103,15 @@ public class PlayerMovement : MonoBehaviour
 
         if (moveVector.x > 0) facingDirection = 1f;
         else if (moveVector.x < 0) facingDirection = -1f;
+
+          // Sprite flip
+        transform.localScale = new Vector3(facingDirection * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+
+        // Animator state
+        if (animator != null)
+        {
+            animator.SetBool("isMoving", Mathf.Abs(moveVector.x) > 0.01f);
+        }
 
         // Shooting
         if (attackAction != null && attackAction.WasPressedThisFrame())
