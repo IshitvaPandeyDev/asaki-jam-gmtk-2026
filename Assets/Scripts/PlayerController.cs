@@ -32,6 +32,8 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Animation")]
     [SerializeField] private Animator animator;
+    [SerializeField] private AnimatorOverrideController spiritOverride;
+    [SerializeField] private RuntimeAnimatorController normalController;
 
     private Rigidbody2D rb;
     private InputAction moveAction;
@@ -207,6 +209,13 @@ public class PlayerMovement : MonoBehaviour
                 break;
             }
         }
+    }
+
+
+    public void OnWorldChanged(bool isSpiritWorld)
+    {
+        if (animator == null) return;
+        animator.runtimeAnimatorController = isSpiritWorld ? spiritOverride : normalController;
     }
 
 

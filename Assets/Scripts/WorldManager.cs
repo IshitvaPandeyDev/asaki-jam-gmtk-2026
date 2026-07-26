@@ -10,6 +10,7 @@ public class WorldManager : MonoBehaviour
     [SerializeField] private GameObject normalWorld;
     [SerializeField] private GameObject spiritWorld;
     [SerializeField] private Tilemap spiritTilemap;
+    [SerializeField] private PlayerMovement player;
 
     [Header("Timing Settings")]
     [SerializeField] private float switchTime = 15f;
@@ -54,6 +55,8 @@ public class WorldManager : MonoBehaviour
 
         normalWorld.SetActive(!isSpiritWorldActive);
         spiritWorld.SetActive(isSpiritWorldActive);
+
+        player.OnWorldChanged(isSpiritWorldActive);
 
         if (isSpiritWorldActive)
         {
