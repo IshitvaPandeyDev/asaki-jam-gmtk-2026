@@ -12,10 +12,13 @@ public class WorldManager : MonoBehaviour
     [SerializeField] private Tilemap spiritTilemap;
     [SerializeField] private PlayerController player;
 
+    [Header("Spawner Reference")]
+    [SerializeField] private EnemySpawner enemySpawner; // <-- ADD THIS FIELD
+
     [Header("Timing Settings")]
     [SerializeField] private float switchTime = 15f;
     [SerializeField] private float DecayInterval = 0.5f;
-    [SerializeField] private int TilesPerDecay = 2; 
+    [SerializeField] private int TilesPerDecay = 2;
 
     private List<Vector3Int> activeTiles = new List<Vector3Int>();
     private bool isSpiritWorldActive = false;
@@ -34,6 +37,12 @@ public class WorldManager : MonoBehaviour
 
         normalWorld.SetActive(true);
         spiritWorld.SetActive(false);
+
+        // Ensure spawner starts ON
+        if (enemySpawner != null)
+        {
+            enemySpawner.enabled = true;
+        }
 
         CacheTiles();
     }
@@ -56,7 +65,11 @@ public class WorldManager : MonoBehaviour
         normalWorld.SetActive(!isSpiritWorldActive);
         spiritWorld.SetActive(isSpiritWorldActive);
 
-        
+        // Turn OFF spawner in Spirit World (triggers OnDisable), turn ON in Normal World (triggers OnEnable)
+        if (enemySpawner != null)
+        {
+            enemySpawner.enabled = !isSpiritWorldActive;
+        }
 
         player.OnWorldChanged(isSpiritWorldActive);
 
