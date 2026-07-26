@@ -10,7 +10,6 @@ public class GameOverManager : MonoBehaviour
 
     [Header("Scene Settings")]
     [SerializeField] private string gameSceneName = "Game"; // exact name in Build Settings
-    [SerializeField] private string mainMenuSceneName = "Main Menu"; // exact name in Build Settings
 
     private void Awake()
     {
@@ -48,14 +47,5 @@ public class GameOverManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(gameSceneName);
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            Time.timeScale = 1f;
-            SceneManager.LoadScene(mainMenuSceneName);
-        }
     }
 }

@@ -45993,7 +45993,6 @@ GameObject:
   - component: {fileID: 1128891886}
   - component: {fileID: 1128891885}
   - component: {fileID: 1128891884}
-  - component: {fileID: 1128891887}
   m_Layer: 0
   m_Name: Finish Trigger
   m_TagString: Untagged
@@ -46121,21 +46120,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1128891887
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1128891883}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54ff882f7a0f0634e95b98da6198cb3a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GameOverManager
-  gameOverPanel: {fileID: 0}
-  gameSceneName: Game
-  mainMenuSceneName: Main Menu
 --- !u!1 &1191555036
 GameObject:
   m_ObjectHideFlags: 0
@@ -51820,7 +51804,7 @@ MonoBehaviour:
   enemySpawner: {fileID: 1731575230}
   switchTime: 15
   DecayInterval: 0.5
-  TilesPerDecay: 2
+  TilesPerDecay: 8
 --- !u!4 &1514365010
 Transform:
   m_ObjectHideFlags: 0
