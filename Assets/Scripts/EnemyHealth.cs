@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
@@ -6,10 +7,14 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private float maxhealth = 1000f;
     [SerializeField] private float PlayerDamage = 50f;
     private float currenthealth;
+    private PlayerHealth playerHealth;
+    private CinemachineImpulseSource impulseSource;
 
     private void Start()
     {
         currenthealth = maxhealth;
+        playerHealth = FindFirstObjectByType<PlayerHealth>();
+        impulseSource = GetComponent<CinemachineImpulseSource>();
     }
 
     public void TakeDamage()
@@ -18,7 +23,12 @@ public class EnemyHealth : MonoBehaviour
         Debug.Log("Current health is " + currenthealth);
         if (currenthealth <= 0)
         {
+            if (impulseSource != null)
+            {
+                impulseSource.GenerateImpulse();
+            }
             Die();
+            playerHealth.HealOnKill();
         }
     }
 
