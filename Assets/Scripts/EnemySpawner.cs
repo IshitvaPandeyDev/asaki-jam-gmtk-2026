@@ -1,32 +1,26 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
     [Header("Spawner Settings")]
     [SerializeField] private GameObject enemyPrefab;
-    [SerializeField] private Transform playerTransform;
-    [SerializeField] private float spawnInterval = 10f;
+    [SerializeField] private float spawnInterval = 4f;
 
-    [Header("Near-Player Spawn Settings")]
-    [SerializeField] private float minSpawnDistance = 3f;  // Keeps enemies from spawning directly on top of the player
-    [SerializeField] private float maxSpawnDistance = 7f;  // Keeps enemies close by
-    [SerializeField] private LayerMask groundLayer;        // Assign your Ground/Tilemap layer in Inspector
+    [Header("Spawn Offset From Player")]
+    [SerializeField] private float minSpawnDistance = 3f;  // Min distance to left/right
+    [SerializeField] private float maxSpawnDistance = 6f;  // Max distance to left/right
 
     private Coroutine spawnCoroutine;
+    private List<GameObject> activeEnemies = new List<GameObject>();
 
     private void OnEnable()
     {
-        // Auto-find player if reference is missing
-        if (playerTransform == null)
-        {
-            GameObject playerObj = GameObject.FindWithTag("Player");
-            if (playerObj != null)
-            {
-                playerTransform = playerObj.transform;
-            }
-        }
+        // 1. Immediately spawn a fresh enemy near player when entering Normal World
+        SpawnEnemyNearPlayer();
 
+        // 2. Restart the spawning timer loop
         if (spawnCoroutine != null)
         {
             StopCoroutine(spawnCoroutine);
@@ -36,11 +30,15 @@ public class EnemySpawner : MonoBehaviour
 
     private void OnDisable()
     {
+        // 1. Stop the spawner timer loop when entering Spirit World
         if (spawnCoroutine != null)
         {
             StopCoroutine(spawnCoroutine);
             spawnCoroutine = null;
         }
+
+        // 2. Destroy all active enemies so none linger in the Spirit World
+        DestroyAllEnemies();
     }
 
     private IEnumerator SpawnEnemyRoutine()
@@ -48,41 +46,40 @@ public class EnemySpawner : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(spawnInterval);
-
-            if (playerTransform != null && enemyPrefab != null)
-            {
-                SpawnEnemyNearPlayer();
-            }
+            SpawnEnemyNearPlayer();
         }
     }
 
     private void SpawnEnemyNearPlayer()
     {
-        // 1. Pick a random direction (Left or Right of player)
-        float spawnDirection = Random.value > 0.5f ? 1f : -1f;
+        if (enemyPrefab == null) return;
 
-        // 2. Pick a random distance within min/max bounds
-        float randomDistance = Random.Range(minSpawnDistance, maxSpawnDistance);
+        // Clean up references to enemies that were killed by the player
+        activeEnemies.RemoveAll(enemy => enemy == null);
 
-        // 3. Compute base spawn position relative to player
-        Vector3 targetSpawnPos = playerTransform.position + new Vector3(spawnDirection * randomDistance, 0f, 0f);
+        // Pick random left (-1) or right (+1) offset from player
+        float direction = Random.value > 0.5f ? 1f : -1f;
+        float distance = Random.Range(minSpawnDistance, maxSpawnDistance);
 
-        // 4. Raycast down from above the target spot to find the actual floor height
-        Vector3 rayStart = targetSpawnPos + Vector3.up * 3f;
-        RaycastHit2D hit = Physics2D.Raycast(rayStart, Vector2.down, 6f, groundLayer);
+        // Since EnemySpawner is a child of Player (with local position 0,0,0),
+        // transform.position IS the player's exact world position!
+        Vector3 spawnPos = transform.position + new Vector3(direction * distance, 0f, 0f);
 
-        if (hit.collider != null)
+        // Instantiate in World Space so enemy moves independently of player
+        GameObject newEnemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+
+        activeEnemies.Add(newEnemy);
+    }
+
+    public void DestroyAllEnemies()
+    {
+        for (int i = activeEnemies.Count - 1; i >= 0; i--)
         {
-            // Spawn slightly above the ground surface so the enemy doesn't get stuck in floor tiles
-            Vector3 safeGroundPos = hit.point + new Vector2(0f, 0.5f);
-            Instantiate(enemyPrefab, safeGroundPos, Quaternion.identity, transform);
-            Debug.Log("Enemy spawned near player on valid ground!");
+            if (activeEnemies[i] != null)
+            {
+                Destroy(activeEnemies[i]);
+            }
         }
-        else
-        {
-            // Fallback: If no floor was hit below, spawn at target position directly
-            Instantiate(enemyPrefab, targetSpawnPos, Quaternion.identity, transform);
-            Debug.LogWarning("No ground hit under spawn point; spawned using raw position.");
-        }
+        activeEnemies.Clear();
     }
 }
