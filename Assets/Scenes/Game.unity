@@ -39663,11 +39663,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!4 &1012194951 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4643654950784243362, guid: adbbb25b21dabe54091c2bb9e3818309, type: 3}
-  m_PrefabInstance: {fileID: 1224863641}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1027800322
 GameObject:
   m_ObjectHideFlags: 0
@@ -45998,6 +45993,7 @@ GameObject:
   - component: {fileID: 1128891886}
   - component: {fileID: 1128891885}
   - component: {fileID: 1128891884}
+  - component: {fileID: 1128891887}
   m_Layer: 0
   m_Name: Finish Trigger
   m_TagString: Untagged
@@ -46125,6 +46121,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1128891887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1128891883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54ff882f7a0f0634e95b98da6198cb3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameOverManager
+  gameOverPanel: {fileID: 0}
+  gameSceneName: Game
+  mainMenuSceneName: Main Menu
 --- !u!1 &1191555036
 GameObject:
   m_ObjectHideFlags: 0
@@ -46310,91 +46321,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5114139891961015062, guid: 46bb633ef994c4e47a102a99a495f1e2, type: 3}
   m_PrefabInstance: {fileID: 1212170016}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1224863641
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1731575228}
-    m_Modifications:
-    - target: {fileID: 3719078553871603140, guid: adbbb25b21dabe54091c2bb9e3818309, type: 3}
-      propertyPath: m_Name
-      value: EnemySpawner
-      objectReference: {fileID: 0}
-    - target: {fileID: 4643654950784243362, guid: adbbb25b21dabe54091c2bb9e3818309, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.4285715
-      objectReference: {fileID: 0}
-    - target: {fileID: 4643654950784243362, guid: adbbb25b21dabe54091c2bb9e3818309, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.4285715
-      objectReference: {fileID: 0}
-    - target: {fileID: 4643654950784243362, guid: adbbb25b21dabe54091c2bb9e3818309, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 16.405615
-      objectReference: {fileID: 0}
-    - target: {fileID: 4643654950784243362, guid: adbbb25b21dabe54091c2bb9e3818309, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -2.8150856
-      objectReference: {fileID: 0}
-    - target: {fileID: 4643654950784243362, guid: adbbb25b21dabe54091c2bb9e3818309, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4643654950784243362, guid: adbbb25b21dabe54091c2bb9e3818309, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4643654950784243362, guid: adbbb25b21dabe54091c2bb9e3818309, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4643654950784243362, guid: adbbb25b21dabe54091c2bb9e3818309, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4643654950784243362, guid: adbbb25b21dabe54091c2bb9e3818309, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4643654950784243362, guid: adbbb25b21dabe54091c2bb9e3818309, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4643654950784243362, guid: adbbb25b21dabe54091c2bb9e3818309, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4643654950784243362, guid: adbbb25b21dabe54091c2bb9e3818309, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5558183813649738415, guid: adbbb25b21dabe54091c2bb9e3818309, type: 3}
-      propertyPath: enemyPrefab
-      value: 
-      objectReference: {fileID: 2414158619197543067, guid: aa47eb5aedf43664daf3f2d8c65596d7, type: 3}
-    - target: {fileID: 5558183813649738415, guid: adbbb25b21dabe54091c2bb9e3818309, type: 3}
-      propertyPath: spawnDistance
-      value: 3.48
-      objectReference: {fileID: 0}
-    - target: {fileID: 5558183813649738415, guid: adbbb25b21dabe54091c2bb9e3818309, type: 3}
-      propertyPath: spawnInterval
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5558183813649738415, guid: adbbb25b21dabe54091c2bb9e3818309, type: 3}
-      propertyPath: maxSpawnDistance
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 8066329435668354936, guid: adbbb25b21dabe54091c2bb9e3818309, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: adbbb25b21dabe54091c2bb9e3818309, type: 3}
 --- !u!1 &1310488992
 GameObject:
   m_ObjectHideFlags: 0
@@ -51712,6 +51638,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameOverPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 5762071794962898636, guid: 7fe9e8cac2ad75c49bcda3e431ddeedc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8908535866497182771, guid: 7fe9e8cac2ad75c49bcda3e431ddeedc, type: 3}
       propertyPath: m_SizeDelta.x
       value: 229.6888
@@ -51887,6 +51817,7 @@ MonoBehaviour:
   spiritWorld: {fileID: 1049515418}
   spiritTilemap: {fileID: 1887426624}
   player: {fileID: 1731575229}
+  enemySpawner: {fileID: 1731575230}
   switchTime: 15
   DecayInterval: 0.5
   TilesPerDecay: 2
@@ -52588,12 +52519,37 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5444988115028349719, guid: 571e532e5360ff746a3e8ba65fd1a681, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5444988115028349719, guid: 571e532e5360ff746a3e8ba65fd1a681, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5444988115028349719, guid: 571e532e5360ff746a3e8ba65fd1a681, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5444988115028349719, guid: 571e532e5360ff746a3e8ba65fd1a681, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5444988115028349719, guid: 571e532e5360ff746a3e8ba65fd1a681, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5444988115028349719, guid: 571e532e5360ff746a3e8ba65fd1a681, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5444988115028349719, guid: 571e532e5360ff746a3e8ba65fd1a681, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 2672719142321500945, guid: 571e532e5360ff746a3e8ba65fd1a681, type: 3}
-      insertIndex: 0
-      addedObject: {fileID: 1012194951}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 571e532e5360ff746a3e8ba65fd1a681, type: 3}
 --- !u!4 &1731575228 stripped
@@ -52612,6 +52568,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bc4d9432d9798b4381c9e24a1b72f87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimpleVectorMovement
+--- !u!114 &1731575230 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5099001659949625114, guid: 571e532e5360ff746a3e8ba65fd1a681, type: 3}
+  m_PrefabInstance: {fileID: 1731575227}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 078aba60d24b3774ca70c6b441b0a4f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
 --- !u!1001 &1740952943
 PrefabInstance:
   m_ObjectHideFlags: 0
