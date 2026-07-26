@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerMovement : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 8f;
@@ -218,6 +218,23 @@ public class PlayerMovement : MonoBehaviour
         animator.runtimeAnimatorController = isSpiritWorld ? spiritOverride : normalController;
     }
 
+    public void TeleportToSafety()
+    {
+        if (SafetyTileManager.Instance != null)
+        {
+            Vector3 safePoint = SafetyTileManager.Instance.GetNearestSafetyTilePosition(transform.position);
+
+            // Instant teleport
+            transform.position = safePoint;
+
+            // Reset Rigidbody velocity so momentum doesn't launch player after teleporting
+            Rigidbody2D rb = GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                rb.linearVelocity = Vector2.zero; // For Unity 6 (use rb.velocity in Unity 2022/earlier)
+            }
+        }
+    }
 
 
 }

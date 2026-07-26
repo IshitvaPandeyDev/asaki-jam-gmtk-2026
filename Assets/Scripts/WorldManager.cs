@@ -10,7 +10,7 @@ public class WorldManager : MonoBehaviour
     [SerializeField] private GameObject normalWorld;
     [SerializeField] private GameObject spiritWorld;
     [SerializeField] private Tilemap spiritTilemap;
-    [SerializeField] private PlayerMovement player;
+    [SerializeField] private PlayerController player;
 
     [Header("Timing Settings")]
     [SerializeField] private float switchTime = 15f;
