@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.UI;
 public class PlayerHealth : MonoBehaviour
 {
     [Header("Health Settings")]
@@ -15,6 +15,9 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private float InvincDuration = 1.0f;
     private float InvincTimer = 0f;
 
+    [Header("UI Reference")]
+    [SerializeField] private Image healthBarFill;
+
     private void Start()
     {
         CurrentHearts = MaxHearts;
@@ -29,6 +32,7 @@ public class PlayerHealth : MonoBehaviour
             InvincTimer -= Time.deltaTime;
         }
         Debug.Log(CurrentHearts);
+        UpdateHealthUI();
     }
     public void TakeDamage()
     {
@@ -72,5 +76,14 @@ public class PlayerHealth : MonoBehaviour
     {
         gameObject.SetActive(false);
         GameOverManager.Instance.TriggerGameOver();
+    }
+
+    private void UpdateHealthUI()
+    {
+        if (healthBarFill != null)
+        {
+            // Continuously converts health remaining into a 0.0 to 1.0 fill value
+            healthBarFill.fillAmount = Mathf.Clamp01(CurrentHearts / MaxHearts);
+        }
     }
 }

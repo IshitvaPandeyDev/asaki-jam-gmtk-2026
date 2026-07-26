@@ -61,6 +61,7 @@ public class PlayerController : MonoBehaviour
             attackAction = InputSystem.actions.FindAction("Attack");
         }
         playerhealth = GetComponent<PlayerHealth>();
+
     }
 
     private void Update()
