@@ -225,16 +225,30 @@ public class PlayerController : MonoBehaviour
             Vector3 safePoint = SafetyTileManager.Instance.GetNearestSafetyTilePosition(transform.position);
 
             // Instant teleport
-            transform.position = safePoint;
+            transform.position = safePoint + new Vector3(0f, 1.2f, 0f); ;
 
             // Reset Rigidbody velocity so momentum doesn't launch player after teleporting
             Rigidbody2D rb = GetComponent<Rigidbody2D>();
             if (rb != null)
             {
-                rb.linearVelocity = Vector2.zero; // For Unity 6 (use rb.velocity in Unity 2022/earlier)
+                rb.linearVelocity = Vector2.zero;
             }
+        }
+
+        // Apply damage once when teleporting
+        if (playerhealth != null)
+        {
+            playerhealth.TakeDamage();
         }
     }
 
-
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // Check if the overlapping object is on the ground/tilemap layer
+        if (((1 << collision.gameObject.layer) & groundLayer) != 0)
+        {
+            TeleportToSafety();
+        }
+    }
 }
+
