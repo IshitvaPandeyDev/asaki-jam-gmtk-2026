@@ -8,6 +8,9 @@ public class GameOverManager : MonoBehaviour
     [Header("UI Reference")]
     [SerializeField] private GameObject gameOverPanel;
 
+    [Header("Scene Settings")]
+    [SerializeField] private string gameSceneName = "Game"; // exact name in Build Settings
+
     private void Awake()
     {
         if (Instance == null)
@@ -22,7 +25,6 @@ public class GameOverManager : MonoBehaviour
 
     private void Start()
     {
-        // Ensure game time is running normally on start
         Time.timeScale = 1f;
 
         if (gameOverPanel != null)
@@ -38,17 +40,12 @@ public class GameOverManager : MonoBehaviour
             gameOverPanel.SetActive(true);
         }
 
-        // Pause game time so enemies/player stop moving
         Time.timeScale = 0f;
     }
 
     public void RestartGame()
     {
-        // Resume time before reloading scene
         Time.timeScale = 1f;
-
-        // Reload current active scene
-        Scene activeScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(activeScene.buildIndex);
+        SceneManager.LoadScene(gameSceneName);
     }
 }
