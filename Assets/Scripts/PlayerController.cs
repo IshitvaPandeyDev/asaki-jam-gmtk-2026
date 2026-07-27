@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
@@ -215,7 +216,8 @@ public class PlayerController : MonoBehaviour
         {
             Vector3 safePoint = SafetyTileManager.Instance.GetNearestSafetyTilePosition(transform.position);
 
-            transform.position = safePoint + new Vector3(0f, 1.2f, 0f); ;
+            // Apply final position (safePoint already includes tile height offset)
+            transform.position = safePoint + new Vector3(0f,1.2f,0f);
 
             Rigidbody2D rb = GetComponent<Rigidbody2D>();
             if (rb != null)
@@ -236,6 +238,13 @@ public class PlayerController : MonoBehaviour
         {
             TeleportToSafety();
         }
+        int layerindex = LayerMask.NameToLayer("Enemy");
+        int layerindex1 = LayerMask.NameToLayer("Ending");
+        if (collision.gameObject.layer == layerindex1)
+        {
+            SceneManager.LoadScene("Main Menu");
+        }
     }
+    
 }
 

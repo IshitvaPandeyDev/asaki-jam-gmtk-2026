@@ -12,6 +12,11 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float minSpawnDistance = 3f;  // Min distance to left/right
     [SerializeField] private float maxSpawnDistance = 6f;  // Max distance to left/right
 
+    [Header("Invalid Spawn Prevention")]
+    [SerializeField] private LayerMask invalidSpawnLayers; // Assign Ground & Safety Tile layers in Inspector
+    [SerializeField] private float checkRadius = 0.5f;     // Size of the check area (matches enemy size)
+    [SerializeField] private int maxSpawnAttempts = 10;    // Number of retry attempts before giving up
+
     private Coroutine spawnCoroutine;
     private List<GameObject> activeEnemies = new List<GameObject>();
 
@@ -57,18 +62,34 @@ public class EnemySpawner : MonoBehaviour
         // Clean up references to enemies that were killed by the player
         activeEnemies.RemoveAll(enemy => enemy == null);
 
-        // Pick random left (-1) or right (+1) offset from player
-        float direction = Random.value > 0.5f ? 1f : -1f;
-        float distance = Random.Range(minSpawnDistance, maxSpawnDistance);
+        Vector3 validSpawnPos = Vector3.zero;
+        bool foundValidSpot = false;
 
-        // Since EnemySpawner is a child of Player (with local position 0,0,0),
-        // transform.position IS the player's exact world position!
-        Vector3 spawnPos = transform.position + new Vector3(direction * distance, 0f, 0f);
+        // Try a few times to find a position that isn't inside ground or safety tiles
+        for (int i = 0; i < maxSpawnAttempts; i++)
+        {
+            float direction = Random.value > 0.5f ? 1f : -1f;
+            float distance = Random.Range(minSpawnDistance, maxSpawnDistance);
 
-        // Instantiate in World Space so enemy moves independently of player
-        GameObject newEnemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+            Vector3 candidatePos = transform.position + new Vector3(direction * distance, 0f, 0f);
 
-        activeEnemies.Add(newEnemy);
+            // Check if the candidate position overlaps with forbidden layers (Ground/Safety)
+            Collider2D hit = Physics2D.OverlapCircle(candidatePos, checkRadius, invalidSpawnLayers);
+
+            if (hit == null)
+            {
+                validSpawnPos = candidatePos;
+                foundValidSpot = true;
+                break; // Found a clean spot!
+            }
+        }
+
+        // Only spawn if a valid spot was found
+        if (foundValidSpot)
+        {
+            GameObject newEnemy = Instantiate(enemyPrefab, validSpawnPos, Quaternion.identity);
+            activeEnemies.Add(newEnemy);
+        }
     }
 
     public void DestroyAllEnemies()
@@ -81,5 +102,13 @@ public class EnemySpawner : MonoBehaviour
             }
         }
         activeEnemies.Clear();
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        // Visualize the check area in Scene View
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, minSpawnDistance);
+        Gizmos.DrawWireSphere(transform.position, maxSpawnDistance);
     }
 }
