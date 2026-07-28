@@ -1,10 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
+using Unity.Cinemachine;
 public class PlayerHealth : MonoBehaviour
 {
     [Header("Health Settings")]
     [SerializeField] private int MaxHearts = 5;
     [SerializeField] private float OppDamage = 1.0f;
+    [SerializeField] private float TimeStop = 0.08f;
     private float CurrentHearts;
 
     [Header("Drain Health Settings")]
@@ -18,9 +21,12 @@ public class PlayerHealth : MonoBehaviour
     [Header("UI Reference")]
     [SerializeField] private Image healthBarFill;
 
+    CinemachineImpulseSource cinemachineImpulseSource;
+
     private void Start()
     {
         CurrentHearts = MaxHearts;
+        cinemachineImpulseSource = FindFirstObjectByType<CinemachineImpulseSource>();
     }
 
     private void Update()
@@ -40,6 +46,7 @@ public class PlayerHealth : MonoBehaviour
 
         CurrentHearts -= OppDamage;
         InvincTimer = InvincDuration;
+        StartCoroutine(DamageTriggerSequence(TimeStop));
 
         if (CurrentHearts <= 0)
         {
@@ -86,4 +93,16 @@ public class PlayerHealth : MonoBehaviour
             healthBarFill.fillAmount = Mathf.Clamp01(CurrentHearts / MaxHearts);
         }
     }
+    public IEnumerator DamageTriggerSequence(float duration)
+    {
+        Time.timeScale = 0f;
+        yield return new WaitForSecondsRealtime(duration);
+        Time.timeScale = 1f;
+
+        if (cinemachineImpulseSource != null)
+        {
+            cinemachineImpulseSource.GenerateImpulse();
+        }
+    }
+
 }

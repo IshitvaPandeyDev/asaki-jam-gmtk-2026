@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
@@ -36,6 +37,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AnimatorOverrideController spiritOverride;
     [SerializeField] private RuntimeAnimatorController normalController;
 
+    [Header("Damage Sequence Settings")]
+    [SerializeField] private float TimeStop = 0.08f;
     private Rigidbody2D rb;
     private InputAction moveAction;
     private InputAction jumpAction;
@@ -216,7 +219,6 @@ public class PlayerController : MonoBehaviour
         {
             Vector3 safePoint = SafetyTileManager.Instance.GetNearestSafetyTilePosition(transform.position);
 
-            // Apply final position (safePoint already includes tile height offset)
             transform.position = safePoint + new Vector3(0f,1.2f,0f);
 
             Rigidbody2D rb = GetComponent<Rigidbody2D>();
@@ -229,6 +231,7 @@ public class PlayerController : MonoBehaviour
         if (playerhealth != null)
         {
             playerhealth.TakeDamage();
+            StartCoroutine(playerhealth.DamageTriggerSequence(TimeStop));
         }
     }
 
@@ -245,6 +248,6 @@ public class PlayerController : MonoBehaviour
             SceneManager.LoadScene("Main Menu");
         }
     }
-    
+   
 }
 
