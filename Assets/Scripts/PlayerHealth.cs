@@ -37,12 +37,16 @@ public class PlayerHealth : MonoBehaviour
         {
             InvincTimer -= Time.deltaTime;
         }
-        Debug.Log(CurrentHearts);
         UpdateHealthUI();
     }
     public void TakeDamage()
     {
         if (InvincTimer > 0) return;
+
+        if (cinemachineImpulseSource == null)
+        {
+            cinemachineImpulseSource = GetComponent<CinemachineImpulseSource>();
+        }
 
         CurrentHearts -= OppDamage;
         InvincTimer = InvincDuration;
@@ -81,7 +85,6 @@ public class PlayerHealth : MonoBehaviour
     }
     public void Die()
     {
-        gameObject.SetActive(false);
         GameOverManager.Instance.TriggerGameOver();
     }
 
@@ -102,6 +105,10 @@ public class PlayerHealth : MonoBehaviour
         if (cinemachineImpulseSource != null)
         {
             cinemachineImpulseSource.GenerateImpulse();
+        }
+        else
+        {
+            Debug.LogWarning("CinemachineImpulseSource is NULL in Spirit World!");
         }
     }
 
