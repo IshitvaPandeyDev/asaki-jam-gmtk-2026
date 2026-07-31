@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class PauseManager : MonoBehaviour
@@ -8,7 +9,7 @@ public class PauseManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             if (IsPaused) Resume();
             else Pause();
@@ -31,7 +32,7 @@ public class PauseManager : MonoBehaviour
 
     public void ExitToMainMenu()
     {
-        Time.timeScale = 1f; // reset before leaving, or MainMenu loads frozen
-        SceneManager.LoadScene("MainMenu");
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Main Menu");
     }
 }
