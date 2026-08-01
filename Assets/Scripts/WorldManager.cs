@@ -13,7 +13,11 @@ public class WorldManager : MonoBehaviour
     [SerializeField] private PlayerController player;
 
     [Header("Spawner Reference")]
-    [SerializeField] private EnemySpawner enemySpawner; // <-- ADD THIS FIELD
+    [SerializeField] private EnemySpawner enemySpawner;
+
+    [Header("Level-Wide Particle System")]
+    [SerializeField] private ParticleSystem levelDestructionParticles; // Assign the scene's Particle System
+    [SerializeField] private int particlesPerTile = 15;                // Number of particles per decayed tile
 
     [Header("Timing Settings")]
     [SerializeField] private float switchTime = 15f;
@@ -23,12 +27,8 @@ public class WorldManager : MonoBehaviour
     private List<Vector3Int> activeTiles = new List<Vector3Int>();
     private bool isSpiritWorldActive = false;
     private float timer;
-    CinemachineCamera cinemachineCamera;
 
-    public float Timer
-    {
-        get { return timer; }
-    }
+    public float Timer => timer;
 
     void Start()
     {
@@ -38,7 +38,6 @@ public class WorldManager : MonoBehaviour
         normalWorld.SetActive(true);
         spiritWorld.SetActive(false);
 
-        // Ensure spawner starts ON
         if (enemySpawner != null)
         {
             enemySpawner.enabled = true;
@@ -65,7 +64,6 @@ public class WorldManager : MonoBehaviour
         normalWorld.SetActive(!isSpiritWorldActive);
         spiritWorld.SetActive(isSpiritWorldActive);
 
-        // Turn OFF spawner in Spirit World (triggers OnDisable), turn ON in Normal World (triggers OnEnable)
         if (enemySpawner != null)
         {
             enemySpawner.enabled = !isSpiritWorldActive;
@@ -77,6 +75,7 @@ public class WorldManager : MonoBehaviour
         {
             StartCoroutine(StartSlowDestruction());
         }
+
         var confiner = FindFirstObjectByType<Unity.Cinemachine.CinemachineConfiner2D>();
         if (confiner != null)
         {
@@ -108,8 +107,6 @@ public class WorldManager : MonoBehaviour
         }
 
         activeTiles.Sort((a, b) => a.x.CompareTo(b.x));
-
-        Debug.Log($"Cached {activeTiles.Count} tiles from Spirit Tilemap.");
     }
 
     private IEnumerator StartSlowDestruction()
@@ -124,8 +121,22 @@ public class WorldManager : MonoBehaviour
 
                 Vector3Int targetCell = activeTiles[0];
 
-                spiritTilemap.SetTileFlags(targetCell, TileFlags.None);
+                // 1. Get exact world center of target tile
+                Vector3 worldPos = spiritTilemap.GetCellCenterWorld(targetCell);
 
+                // 2. Trigger a burst from your single level-wide Particle System
+                if (levelDestructionParticles != null)
+                {
+                    var emitParams = new ParticleSystem.EmitParams
+                    {
+                        position = worldPos,
+                        applyShapeToPosition = true
+                    };
+                    levelDestructionParticles.Emit(emitParams, particlesPerTile);
+                }
+
+                // 3. Turn tile black
+                spiritTilemap.SetTileFlags(targetCell, TileFlags.None);
                 spiritTilemap.SetColor(targetCell, Color.black);
 
                 activeTiles.RemoveAt(0);

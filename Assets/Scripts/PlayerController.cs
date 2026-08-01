@@ -248,6 +248,21 @@ public class PlayerController : MonoBehaviour
             SceneManager.LoadScene("Main Menu");
         }
     }
-   
+    public void ActivateSpeedBoost(float multiplier, float duration)
+    {
+        StartCoroutine(SpeedBoostRoutine(multiplier, duration));
+    }
+
+    private IEnumerator SpeedBoostRoutine(float multiplier, float duration)
+    {
+        moveSpeed *= multiplier; // Multiply your movement speed
+        Debug.Log("Speed Boost Activated!");
+
+        yield return new WaitForSeconds(duration);
+
+        moveSpeed /= multiplier; // Reset back to normal speed
+        Debug.Log("Speed Boost Expired!");
+    }
+
 }
 

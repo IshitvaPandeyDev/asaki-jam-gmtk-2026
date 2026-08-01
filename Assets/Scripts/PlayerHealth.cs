@@ -22,6 +22,10 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private Image healthBarFill;
 
     CinemachineImpulseSource cinemachineImpulseSource;
+    [SerializeField] ParticleSystem HurtSystem;
+
+    [Header("Shield Power-Up")]
+    private bool isShieldActive = false;
 
     private void Start()
     {
@@ -39,9 +43,38 @@ public class PlayerHealth : MonoBehaviour
         }
         UpdateHealthUI();
     }
+    public void RestoreHealth(float amount)
+    {
+        CurrentHearts = Mathf.Min(CurrentHearts + amount, MaxHearts);
+        UpdateHealthUI();
+        Debug.Log("Health Restored! Current Health: " + CurrentHearts);
+    }
+
+    // Call this from the Shield power-up
+    public void ActivateShield(float duration)
+    {
+        StartCoroutine(ShieldRoutine(duration));
+    }
+
+    private IEnumerator ShieldRoutine(float duration)
+    {
+        isShieldActive = true;
+        Debug.Log("Shield Activated!");
+
+        // Optional: Add visual feedback like turning sprite blue/cyan
+        SpriteRenderer sprite = GetComponent<SpriteRenderer>();
+        Color originalColor = sprite != null ? sprite.color : Color.white;
+        if (sprite != null) sprite.color = Color.cyan;
+
+        yield return new WaitForSeconds(duration);
+
+        if (sprite != null) sprite.color = originalColor;
+        isShieldActive = false;
+        Debug.Log("Shield Expired!");
+    }
     public void TakeDamage()
     {
-        if (InvincTimer > 0) return;
+        if (isShieldActive || InvincTimer > 0) return;
 
         if (cinemachineImpulseSource == null)
         {
@@ -51,7 +84,7 @@ public class PlayerHealth : MonoBehaviour
         CurrentHearts -= OppDamage;
         InvincTimer = InvincDuration;
         StartCoroutine(DamageTriggerSequence(TimeStop));
-
+        HurtSystem.Play();
         if (CurrentHearts <= 0)
         {
             Die();
