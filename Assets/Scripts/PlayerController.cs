@@ -243,10 +243,6 @@ public class PlayerController : MonoBehaviour
         }
         int layerindex = LayerMask.NameToLayer("Enemy");
         int layerindex1 = LayerMask.NameToLayer("Ending");
-        if (collision.gameObject.layer == layerindex1)
-        {
-            SceneManager.LoadScene("Main Menu");
-        }
     }
    
 }

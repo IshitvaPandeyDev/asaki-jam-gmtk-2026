@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: e1a30352516480e45bd0947f2d15535e
+guid: 0c7b4331e16783a4684d1dba7eac84ac
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -995779289211046693
-    second: return_0
+      213: 4059330362667818752
+    second: ASAKI_7_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,23 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: return_0
+      name: ASAKI_7_0
       rect:
         serializedVersion: 2
-        x: 549
-        y: 273
-        width: 451
-        height: 202
+        x: 178
+        y: 159
+        width: 264
+        height: 189
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 3, z: 0, w: 14}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bd472e723084e22f0800000000000000
-      internalID: -995779289211046693
+      spriteID: 00fd5c42573a55830800000000000000
+      internalID: 4059330362667818752
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: a510628ec720ee74dab157def199cda2
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      return_0: -995779289211046693
+      ASAKI_7_0: 4059330362667818752
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
