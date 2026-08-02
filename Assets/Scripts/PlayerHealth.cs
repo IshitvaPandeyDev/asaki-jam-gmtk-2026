@@ -134,6 +134,8 @@ public class PlayerHealth : MonoBehaviour
         Time.timeScale = 0f;
         yield return new WaitForSecondsRealtime(duration);
         Time.timeScale = 1f;
+        HurtSystem.Play();
+
 
         if (cinemachineImpulseSource != null)
         {
