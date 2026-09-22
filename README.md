@@ -48,8 +48,10 @@ This game was built from scratch during the jam weekend using:
 
 ## 🚀 Installation & Setup (Source Code)
 
-If you'd like to explore the source code or run the project locally in Unity:
+If you'd like to explore the source code, check out our scripts, or run the project locally in Unity, follow these steps:
 
-1. Clone this repository:
-   ```bash
-   git clone [Insert Repository Link Here]
+1. **Download the Files:** Download this repository as a ZIP file directly from GitHub and extract it to a folder on your computer, or use your preferred GitHub desktop client to clone it.
+2. **Launch Unity Hub:** Open Unity Hub on your machine. (Note: Make sure you have Unity 6 installed to avoid any compatibility issues).
+3. **Add the Project:** Click the **Open** or **Add** button in Unity Hub, choose "Add project from disk," and select the folder where you extracted the game files.
+4. **Load the Level:** Once the Unity Editor fully loads the project, navigate to the `Assets/Scenes` folder in your Project window.
+5. **Play:** Double-click the main level scene to open it, then press the **Play** button at the top center of the Unity Editor to test the game!
